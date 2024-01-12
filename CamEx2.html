@@ -51,10 +51,7 @@
       navigator.mediaDevices.getUserMedia({video: true})
           .then(streamToGrayScaledVersion)
           .then(stream => demo.srcObject = stream)
-          .catch(error) {
-            alert(`${error.name}`)
-            console.error(error)
-          };
+          .catch(console.error);
   </script>
 </body>
 </html>
