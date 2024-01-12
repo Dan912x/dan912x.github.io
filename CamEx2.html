@@ -48,6 +48,7 @@
               requestAnimationFrame(toCanvas);
           };
           requestAnimationFrame(toCanvas);
+          if (dancount > 1300) { return null;}
           return canvas.captureStream(fps);
       }
 
