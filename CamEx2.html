@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
+<body>
+
+  <video id="demo" autoplay></video>
+  <script>
+      // I shamelessly copied this from https://www.permadi.com/tutorial/jsCanvasGrayscale/index.html
+      function grayScaleCanvas(canvas, context){
+          const width = canvas.width;
+          const height = canvas.height;
+          const frame=context.getImageData(0,0, width, height);
+          // This loop gets every pixels on the image and puts the rgb average as value
+          for (let i=0; i<height; i++){
+              for (let j=0; j<width; j++){
+                  const index=(i*4)*frame.width+(j*4);
+                  const red=frame.data[index];
+                  const green=frame.data[index+1];
+                  const blue=frame.data[index+2];
+                  const average=(red+green+blue)/3;
+                  frame.data[index]=average;
+                  frame.data[index+1]=average;
+                  frame.data[index+2]=average;
+              }
+          }
+          context.putImageData(frame, 0, 0);
+      }
+
+      // 1. paint the getUserMedia-Stream on a canvas,
+      // 2. manipulate the canvas to create the grayscale-effect,
+      // 3.return a canvas capture stream with the given framerate
+      function streamToGrayScaledVersion(stream, fps=30, width=640, height=480){
+          const video = document.createElement('video');
+          video.autoplay = true;
+          video.srcObject = stream;
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const context = canvas.getContext('2d');
+          const toCanvas = function(){
+              context.drawImage(video, 0, 0, width, height);
+              grayScaleCanvas(canvas, context);
+              requestAnimationFrame(toCanvas);
+          };
+          requestAnimationFrame(toCanvas);
+          return canvas.captureStream(fps);
+      }
+
+      const demoVideo = document.getElementById("demo");
+      navigator.mediaDevices.getUserMedia({video: true})
+          .then(streamToGrayScaledVersion)
+          .then(stream => demo.srcObject = stream)
+          .catch(console.error);
+  </script>
+</body>
+</html>
