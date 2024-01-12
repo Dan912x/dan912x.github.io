@@ -7,14 +7,14 @@
   <video id="demo" autoplay></video>
 
   <script>
-      var dancount = 2000;
+      var dancount = 1000;
       // I shamelessly copied this from https://www.permadi.com/tutorial/jsCanvasGrayscale/index.html
       function grayScaleCanvas(canvas, context){
           console.log(dancount++, 'grayScaleCanvas', canvas);
           const width = canvas.width;
           const height = canvas.height;
           const frame=context.getImageData(0,0, width, height);
-          // This loop gets every pixels on the image and puts the rgb average as value
+          // This loop gets every pixel on the image and puts the rgb average as value
           for (let i=0; i<height; i++){
               for (let j=0; j<width; j++){
                   const index=(i*4)*frame.width+(j*4);
@@ -43,26 +43,20 @@
           canvas.height = height;
           const context = canvas.getContext('2d');
           const toCanvas = function(){
-              context.drawImage(video, 0, 0, width, height);
-              grayScaleCanvas(canvas, context);
-              requestAnimationFrame(toCanvas);
+              context.drawImage(video, 0, 0, width, height);  // video -> canvas
+              grayScaleCanvas(canvas, context);             // manipulate canvas
+              context.font = '20px serif';
+              context.fillText('Dancount ' + dancount++, 100,100);
+              requestAnimationFrame(toCanvas);              // do it again!
           };
-          requestAnimationFrame(toCanvas);
-          if (dancount > 1300) {
-            stream.getTracks().forEach((track) => {
-               if (track.readyState == 'live' && track.kind === 'video') {
-                   track.stop();
-               }
-             });
-            return null;
-          }
-          return canvas.captureStream(fps);
+          requestAnimationFrame(toCanvas);  // call this before each repaint
+          return canvas.captureStream(fps); // sent to second then
       }
 
       const demoVideo = document.getElementById("demo");
       console.log('demoVideo:\n', demoVideo);
       navigator.mediaDevices.getUserMedia({video: true})
-          .then(streamToGrayScaledVersion)
+          .then(streamToGrayScaledVersion)   // gets passed a MediaStream object
           .then(stream => demoVideo.srcObject = stream)
           .catch(console.error);
   </script>
