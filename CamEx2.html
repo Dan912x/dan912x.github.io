@@ -5,7 +5,6 @@
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
 
-  <video id="demo" autoplay></video>
   <script>
       // I shamelessly copied this from https://www.permadi.com/tutorial/jsCanvasGrayscale/index.html
       function grayScaleCanvas(canvas, context){
@@ -52,7 +51,10 @@
       navigator.mediaDevices.getUserMedia({video: true})
           .then(streamToGrayScaledVersion)
           .then(stream => demo.srcObject = stream)
-          .catch(console.error);
+          .catch(error) {
+            alert(`${error.name}`)
+            console.error(error)
+          };
   </script>
 </body>
 </html>
