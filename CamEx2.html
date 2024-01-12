@@ -7,7 +7,7 @@
   <video id="demo" autoplay></video>
 
   <script>
-      var dancount = 1000;
+      var dancount = 2000;
       // I shamelessly copied this from https://www.permadi.com/tutorial/jsCanvasGrayscale/index.html
       function grayScaleCanvas(canvas, context){
           console.log(dancount++, 'grayScaleCanvas', canvas);
@@ -48,7 +48,14 @@
               requestAnimationFrame(toCanvas);
           };
           requestAnimationFrame(toCanvas);
-          if (dancount > 1300) { return null;}
+          if (dancount > 1300) {
+            stream.getTracks().forEach((track) => {
+               if (track.readyState == 'live' && track.kind === 'video') {
+                   track.stop();
+               }
+             });
+            return null;
+          }
           return canvas.captureStream(fps);
       }
 
