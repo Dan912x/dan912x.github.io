@@ -50,7 +50,7 @@
       const demoVideo = document.getElementById("demo");
       navigator.mediaDevices.getUserMedia({video: true})
           .then(streamToGrayScaledVersion)
-          .then(stream => demo.srcObject = stream)
+          .then(stream => demoVideo.srcObject = stream)
           .catch(console.error);
   </script>
 </body>
