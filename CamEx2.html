@@ -8,7 +8,7 @@
 
   <script>
       var dancount = 1000;
-      var start = Date.now();
+      var start = 0;
       // I shamelessly copied this from https://www.permadi.com/tutorial/jsCanvasGrayscale/index.html
       function grayScaleCanvas(canvas, context){
           console.log(dancount++, 'grayScaleCanvas', canvas);
@@ -35,6 +35,9 @@
       // 2. manipulate the canvas to create the grayscale-effect,
       // 3.return a canvas capture stream with the given framerate
       function streamToGrayScaledVersion(stream, fps=30, width=640, height=480){
+          if (start == 0) {
+            start = Date.now();  // just once
+          }
           console.log(dancount++, 'streamttoGSV', stream);
           const video = document.createElement('video');
           video.autoplay = true;
@@ -46,9 +49,9 @@
           const toCanvas = function(){
               context.drawImage(video, 0, 0, width, height);  // video -> canvas
               grayScaleCanvas(canvas, context);             // manipulate canvas
-              context.font = '20px serif';
-              context.fillText('2 Dancount ' + dancount + ' fps:' +
-                      (dancount-1000) / ((Date.now() - start) / 1000),
+              context.font = '24px serif';
+              context.fillText('3 Dancount ' + dancount + ' fps:' +
+                      Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
                       100,100);
               dancount++;
               requestAnimationFrame(toCanvas);              // do it again!
@@ -59,7 +62,7 @@
 
       const demoVideo = document.getElementById("demo");
       console.log('demoVideo:\n', demoVideo);
-      navigator.mediaDevices.getUserMedia({video: true})
+      navigator.mediaDevices.getUserMedia({video: framerate: {ideal: 20, max:40}})
           .then(streamToGrayScaledVersion)   // gets passed a MediaStream object
           .then(stream => demoVideo.srcObject = stream)
           .catch(console.error);
