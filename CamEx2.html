@@ -54,7 +54,7 @@
                       Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
                       100,100);
               dancount++;
-              for (let x = 0; x<640; x+-50) {
+              for (let x = 0; x<640; x+=50) {
                 context.beginPath();
                 context.strokeStyle = "green";
                 context.moveTo(x, 0);
