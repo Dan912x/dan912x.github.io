@@ -8,6 +8,7 @@
 
   <script>
       var dancount = 1000;
+      var start = Date.now();
       // I shamelessly copied this from https://www.permadi.com/tutorial/jsCanvasGrayscale/index.html
       function grayScaleCanvas(canvas, context){
           console.log(dancount++, 'grayScaleCanvas', canvas);
@@ -46,7 +47,10 @@
               context.drawImage(video, 0, 0, width, height);  // video -> canvas
               grayScaleCanvas(canvas, context);             // manipulate canvas
               context.font = '20px serif';
-              context.fillText('Dancount ' + dancount++, 100,100);
+              context.fillText('1 Dancount ' + dancount + ' fps:' +
+                      (dancount-1000 / ((Date.now() - start) / 1000),
+                      100,100);
+              dancount++;
               requestAnimationFrame(toCanvas);              // do it again!
           };
           requestAnimationFrame(toCanvas);  // call this before each repaint
