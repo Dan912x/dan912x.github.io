@@ -50,17 +50,17 @@
               context.drawImage(video, 0, 0, width, height);  // video -> canvas
               grayScaleCanvas(canvas, context);             // manipulate canvas
               context.font = '24px serif';
-              context.fillText('7 Dancount ' + dancount + ' fps:' +
+              context.fillText('8 Dancount ' + dancount + ' fps:' +
                       Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
                       100,100);
               dancount++;
-              for (let x = 0; x<640; x+=50) {
-                context.beginPath();
-                context.strokeStyle = "green";
-                context.moveTo(x, 0);
-                context.lineTo(x, 480);
-                context.stroke();
-            }
+              //for (let x = 0; x<640; x+=50) {
+              //  context.beginPath();
+              //  context.strokeStyle = "green";
+              //  context.moveTo(x, 0);
+              //  context.lineTo(x, 480);
+              //  context.stroke();
+              //}
               requestAnimationFrame(toCanvas);              // do it again!
           };
           requestAnimationFrame(toCanvas);  // call this before each repaint
