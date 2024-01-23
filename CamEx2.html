@@ -15,7 +15,7 @@
       var start = 0;
       // I shamelessly copied this from https://www.permadi.com/tutorial/jsCanvasGrayscale/index.html
       function grayScaleCanvas(canvas, context){
-          console.log(dancount++, 'grayScaleCanvas', canvas);
+          console.log(dancount, 'grayScaleCanvas', canvas);
           const width = canvas.width;
           const height = canvas.height;
           const frame=context.getImageData(0,0, width, height);
@@ -42,7 +42,7 @@
           if (start == 0) {
             start = Date.now();  // just once
           }
-          console.log(dancount++, 'streamttoGSV', stream);
+          console.log(dancount++, 'set up streamttoGSV', stream);
           const video = document.createElement('video');
           video.autoplay = true;
           video.srcObject = stream;
@@ -54,7 +54,7 @@
               context.drawImage(video, 0, 0, width, height);  // video -> canvas, with scaling
               grayScaleCanvas(canvas, context);             // manipulate canvas
               context.font = '24px serif';
-              context.fillText('8 Dancount ' + dancount + ' fps:' +
+              context.fillText('9 Dancount ' + dancount + ' fps:' +
                       Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
                       100,100);
               //for (let x = 0; x<640; x+=50) {
@@ -64,7 +64,9 @@
               //  context.lineTo(x, 480);
               //  context.stroke();
               //}
-            requestAnimationFrame(toCanvas);              // do it again!
+              if (dancount<2000) {
+                requestAnimationFrame(toCanvas);              // do it again!
+              }
           };
           requestAnimationFrame(toCanvas);  // call this before each repaint
           return canvas.captureStream(fps); // sent to second then
