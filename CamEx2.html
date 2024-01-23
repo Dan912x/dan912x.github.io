@@ -4,7 +4,11 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
+  <!--
+    <button id="allow-access" style="font-family: Arial, sans-serif; font-size: 30px">1 Start</button>
+  -->
   <video id="demo" autoplay></video>
+  <canvas id="outputCanvas"></canvas>
 
   <script>
       var dancount = 1000;
@@ -47,13 +51,12 @@
           canvas.height = height;
           const context = canvas.getContext('2d');
           const toCanvas = function(){
-              context.drawImage(video, 0, 0, width, height);  // video -> canvas
+              context.drawImage(video, 0, 0, width, height);  // video -> canvas, with scaling
               grayScaleCanvas(canvas, context);             // manipulate canvas
               context.font = '24px serif';
               context.fillText('8 Dancount ' + dancount + ' fps:' +
                       Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
                       100,100);
-              dancount++;
               //for (let x = 0; x<640; x+=50) {
               //  context.beginPath();
               //  context.strokeStyle = "green";
@@ -61,12 +64,13 @@
               //  context.lineTo(x, 480);
               //  context.stroke();
               //}
-              requestAnimationFrame(toCanvas);              // do it again!
+            requestAnimationFrame(toCanvas);              // do it again!
           };
           requestAnimationFrame(toCanvas);  // call this before each repaint
           return canvas.captureStream(fps); // sent to second then
       }
 
+      //document.getElementById('allow-access').addEventListener('click', async function init(e) {
       const demoVideo = document.getElementById("demo");
       console.log('demoVideo:\n', demoVideo);
       const constraints = {video: { frameRate: { ideal: 10, max: 15 } } };
