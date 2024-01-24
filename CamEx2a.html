@@ -19,9 +19,9 @@
       var prevTimeStamp = 0;
 
       const demoVideo = document.getElementById('demo');
-      console.log('10 demoVideo:\n', demoVideo);
+      console.log('11 demoVideo:\n', demoVideo);
       //video.autoplay = true;
-      demoVideo.srcObject = stream;
+      //demoVideo.srcObject = stream;
 
       const canvas = document.getElementById('outputCanvas');
       canvas.width = width;
@@ -35,6 +35,7 @@
           .then(stream => demoVideo.srcObject = stream)
           .catch(console.error);
 
+      //-------------------------------------------------
       function grayScaleCanvas() { //canvas, context){
           console.log(dancount, 'grayScaleCanvas', canvas);
           const width = canvas.width;
@@ -65,7 +66,7 @@
           if (start == 0) {
             start = Date.now();  // just once
           }
-          video.srcObject = stream;
+          demoVideo.srcObject = stream;
 
           const toCanvas = function(timeStamp){
               console.log('callback elapsed', timeStamp - prevTimeStamp, '===', timeStamp);
@@ -74,7 +75,7 @@
               context.drawImage(demoVideo, 0, 0, width, height);  // video -> canvas, with scaling
               grayScaleCanvas(); //(canvas, context);             // manipulate canvas
               context.font = '24px serif';
-              context.fillText('14 Dancount ' + dancount + ' fps:' +
+              context.fillText('Dancount ' + dancount + ' fps:' +
                       Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
                       100,100);
               //for (let x = 0; x<640; x+=50) {
@@ -84,12 +85,12 @@
               //  context.lineTo(x, 480);
               //  context.stroke();
               //}
-              if (dancount<1500) {
+              if (dancount<1300) {
                 requestAnimationFrame(toCanvas);              // do it again!
               }
           }; // end toCanvas
           requestAnimationFrame(toCanvas);  // call this before each repaint
-          return canvas.captureStream(fps); // sent to second then
+          return canvas.captureStream();  // (fps); // sent to second then
       } // end streamToGSV
   </script>
 </body>
