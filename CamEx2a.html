@@ -67,6 +67,7 @@
             start = Date.now();  // just once
           }
           demoVideo.srcObject = stream;
+          console.log('streamToGSV, stream:', stream);
 
           const toCanvas = function(timeStamp){
               console.log('callback elapsed', timeStamp - prevTimeStamp, '===', timeStamp);
