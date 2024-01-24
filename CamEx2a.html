@@ -7,7 +7,7 @@
   <!--
     <button id="allow-access" style="font-family: Arial, sans-serif; font-size: 30px">1 Start</button>
   -->
-  <h2>Run 3</h2>
+  <h2>Run 4</h2>
   <video id="demo" autoplay style='border-style: dotted'></video>
   <p>
   hello
@@ -21,7 +21,7 @@
 
       const demoVideo = document.getElementById('demo');
       console.log('12 demoVideo:\n', demoVideo);
-      //video.autoplay = true;
+      video.autoplay = true;
       //demoVideo.srcObject = stream;
 
       const canvas = document.getElementById('outputCanvas');
@@ -33,7 +33,7 @@
 
       navigator.mediaDevices.getUserMedia(constraints)
           .then(streamToGrayScaledVersion)   // gets passed a MediaStream object
-          .then(stream => demoVideo.srcObject = stream)
+          .then(stream => {console.log('pos M', stream); demoVideo.srcObject = stream) }
           .catch(console.error);
 
       //-------------------------------------------------
@@ -87,10 +87,11 @@
               //  context.lineTo(x, 480);
               //  context.stroke();
               //}
-              if (dancount<1300) {
+              if (dancount<1200) {
                 requestAnimationFrame(toCanvas);              // do it again!
               }
           }; // end toCanvas
+          console.log('position X');
           requestAnimationFrame(toCanvas);  // call this before each repaint
           return canvas.captureStream();  // (fps); // sent to second then
       } // end streamToGSV
