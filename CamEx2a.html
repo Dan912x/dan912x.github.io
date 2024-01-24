@@ -4,10 +4,7 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
-  <!--
-    <button id="allow-access" style="font-family: Arial, sans-serif; font-size: 30px">1 Start</button>
-  -->
-  <h2>Run 4</h2>
+  <h2>Run 5</h2>
   <video id="demo" autoplay style='border-style: dotted'></video>
   <p>
   hello
@@ -33,7 +30,7 @@
 
       navigator.mediaDevices.getUserMedia(constraints)
           .then(streamToGrayScaledVersion)   // gets passed a MediaStream object
-          .then(stream => {console.log('pos M', stream); demoVideo.srcObject = stream) }
+          .then(stream => {console.log('pos M', stream); demoVideo.srcObject = stream})
           .catch(console.error);
 
       //-------------------------------------------------
