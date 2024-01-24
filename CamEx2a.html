@@ -63,8 +63,8 @@
           //console.log(dancount, 'grayScaleCanvas', canvas);
           const frame=context.getImageData(0,0, canvas.width, canvas.height);
           // This loop gets every pixel on the image and puts the rgb average as value
-          for (let i=0; i<height; i++){
-              for (let j=0; j<width; j++){
+          for (let i=0; i<canvas.height; i++){
+              for (let j=0; j<canvas.width; j++){
                   let index=(i*4)*frame.width+(j*4);
                   let red=frame.data[index];
                   let green=frame.data[index+1];
