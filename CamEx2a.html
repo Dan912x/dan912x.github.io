@@ -4,7 +4,7 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
-  <h2>Run 6</h2>
+  <h2>Run 7</h2>
   <video id="demo" autoplay style='border-style: dotted'></video>
   <p>
   hello
@@ -17,7 +17,7 @@
       var prevTimeStamp = 0;
 
       const demoVideo = document.getElementById('demo');
-      console.log('12 demoVideo:\n', demoVideo);
+      console.log('demoVideo:\n', demoVideo);
       demoVideo.autoplay = true;
       //demoVideo.srcObject = stream;
 
@@ -30,7 +30,7 @@
 
       navigator.mediaDevices.getUserMedia(constraints)
           .then(streamToGrayScaledVersion)   // gets passed a MediaStream object
-          .then(stream => {console.log('pos M', stream); demoVideo.srcObject = stream})
+          //.then(stream => {console.log('pos M', stream); demoVideo.srcObject = stream})
           .catch(console.error);
 
       //-------------------------------------------------
