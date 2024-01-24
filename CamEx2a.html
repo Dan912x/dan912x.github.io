@@ -4,7 +4,7 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
-  <h2>Run 8</h2>
+  <h2>Run 9</h2>
   <video id="demo" autoplay style='border-style: dotted'></video>
   <p>
   hello
@@ -13,7 +13,7 @@
 
   <script>
       var dancount = 1000;
-      var start = 0;
+      var start = Date.now();
       var prevTimeStamp = 0;
 
       const demoVideo = document.getElementById('demo');
@@ -29,7 +29,12 @@
       const constraints = {video: { frameRate: { ideal: 20, max: 100 } } };
 
       navigator.mediaDevices.getUserMedia(constraints)
-          .then(streamToGrayScaledVersion)   // gets passed a MediaStream object
+          //.then(streamToGrayScaledVersion)   // gets passed a MediaStream object
+          .then(stream =>
+              {
+                demoVideo.srcObject = stream;
+                requestAnimationFrame(updateCanvas);  // call this before each repaint
+              })
           //.then(stream => {console.log('pos M', stream); demoVideo.srcObject = stream})
           .catch(console.error);
 
@@ -37,6 +42,7 @@
       // 1. paint the getUserMedia-Stream on a canvas,
       // 2. manipulate the canvas to create the grayscale-effect,
       // xxxx3.return a canvas capture stream with the given framerate
+      /*
       function streamToGrayScaledVersion(stream) { //, fps=30, width=640, height=480){
           if (start == 0) {
             start = Date.now();  // just once
@@ -47,6 +53,7 @@
           requestAnimationFrame(updateCanvas);  // call this before each repaint
           return canvas.captureStream();  // (fps); // sent to second then
       } // end streamToGSV
+      */
 
       function updateCanvas(timeStamp){
           console.log('callback elapsed',
