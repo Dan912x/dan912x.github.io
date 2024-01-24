@@ -72,7 +72,7 @@
               console.log('callback elapsed', timeStamp - prevTimeStamp, '===', timeStamp);
               prevTimeStamp = timeStamp;
               dancount++;
-              context.drawImage(demoVideo, 0, 0, width, height);  // video -> canvas, with scaling
+              context.drawImage(demoVideo, 0, 0, 640, 480);  // video -> canvas, with scaling
               grayScaleCanvas(); //(canvas, context);             // manipulate canvas
               context.font = '24px serif';
               context.fillText('Dancount ' + dancount + ' fps:' +
