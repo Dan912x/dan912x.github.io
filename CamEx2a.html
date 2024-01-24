@@ -7,7 +7,7 @@
   <!--
     <button id="allow-access" style="font-family: Arial, sans-serif; font-size: 30px">1 Start</button>
   -->
-  <h2>Run 1</h2>
+  <h2>Run 2</h2>
   <video id="demo" autoplay style='border-style: dotted'></video>
   <p>
   hello
@@ -32,7 +32,7 @@
       const constraints = {video: { frameRate: { ideal: 20, max: 100 } } };
 
       navigator.mediaDevices.getUserMedia(constraints)
-          //.then(streamToGrayScaledVersion)   // gets passed a MediaStream object
+          .then(streamToGrayScaledVersion)   // gets passed a MediaStream object
           .then(stream => demoVideo.srcObject = stream)
           .catch(console.error);
 
@@ -41,17 +41,17 @@
           console.log(dancount, 'grayScaleCanvas', canvas);
           const width = canvas.width;
           const height = canvas.height;
-          const frame=context.getImageData(0,0, width, height);
+          const frame=context.getImageData(0,0, width, height).data;
           // This loop gets every pixel on the image and puts the rgb average as value
           for (let i=0; i<height; i++){
               for (let j=0; j<width; j++){
-                  const index=(i*4)*frame.width+(j*4);
-                  const red=frame.data[index];
-                  const green=frame.data[index+1];
-                  const blue=frame.data[index+2];
+                  let index=(i*4)*frame.width+(j*4);
+                  let red=frame.data[index];
+                  let green=frame.data[index+1];
+                  let blue=frame.data[index+2];
                         if (i == 200 && j == 200)
                           console.log('peek 200x200 <', red, green, blue, '>');
-                  const average=(red+green+blue)/3;
+                  let average=(red+green+blue)/3;
                   frame.data[index]=average;
                   frame.data[index+1]=average;
                   frame.data[index+2]=average;
