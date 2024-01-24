@@ -19,16 +19,16 @@
       var prevTimeStamp = 0;
 
       const demoVideo = document.getElementById('demo');
-      console.log('11 demoVideo:\n', demoVideo);
+      console.log('12 demoVideo:\n', demoVideo);
       //video.autoplay = true;
       //demoVideo.srcObject = stream;
 
       const canvas = document.getElementById('outputCanvas');
-      canvas.width = width;
-      canvas.height = height;
+      canvas.width = 640;
+      canvas.height = 480;
       const context = canvas.getContext('2d');
 
-      const constraints = {video: { frameRate: { ideal: 10, max: 15 } } };
+      const constraints = {video: { frameRate: { ideal: 20, max: 100 } } };
 
       navigator.mediaDevices.getUserMedia(constraints)
           .then(streamToGrayScaledVersion)   // gets passed a MediaStream object
