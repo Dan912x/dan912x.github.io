@@ -4,7 +4,7 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
-  <h1>Run 22</h1>
+  <h1>Run 23</h1>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
   <p>
   hello
@@ -30,8 +30,8 @@
       console.log('demoVideo:\n', demoVideo);
 
       const canvas = document.getElementById('outputCanvas');
-      canvas.width = 150;  // 640
-      canvas.height = 150;  // 480
+      canvas.width = 200;  // 640
+      canvas.height = 200;  // 480
       const context = canvas.getContext('2d');
 
       const constraints = {video: { frameRate: { ideal: 20, max: 100 }, facingMode: 'environment' } };
@@ -40,8 +40,11 @@
           .then(stream =>
               {
                 demoVideo.srcObject = stream;
-                canvas.width = demoVideo.videoWidth;
-                canvas.height = demoVideo.videoHeight;
+                if (demoVideo.videoWidth && demoVideo.videoHeight) {
+                  console.log('updating wxh A', demoVideo.videoWidth, demoVideo.videoHeight);
+                  canvas.width = demoVideo.videoWidth;
+                  canvas.height = demoVideo.videoHeight;
+                }
                 requestAnimationFrame(updateCanvas);  // call this before each repaint
               })
           .catch(console.error);
@@ -51,6 +54,11 @@
                   Math.round(timeStamp - prevTimeStamp, 1), '===', timeStamp);
           prevTimeStamp = timeStamp;
           dancount++;
+          if (demoVideo.videoWidth && demoVideo.videoHeight) {
+            console.log('updating wxh B', demoVideo.videoWidth, demoVideo.videoHeight);
+            canvas.width = demoVideo.videoWidth;
+            canvas.height = demoVideo.videoHeight;
+          }
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = '24px serif';
