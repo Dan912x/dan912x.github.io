@@ -4,8 +4,8 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
-  <h1>Run 17</h1>
-  <video id="demo" autoplay style='border-style: dotted'></video>
+  <h1>Run 18</h1>
+  <video id="demo" hidden autoplay style='border-style: dotted'></video>
   <p>
   hello
   <p>
@@ -17,6 +17,7 @@
       var prevTimeStamp = 0;
 
       const demoVideo = document.getElementById('demo');
+      // macOS Safari doesn't work right with non-attached video
       //const demoVideo = document.createElement('video');
       //demoVideo.setAttribute('id', 'demo');
       demoVideo.autoplay = true;
