@@ -4,7 +4,7 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
-  <h1>Run 18</h1>
+  <h1>Run 19</h1>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
   <p>
   hello
@@ -53,8 +53,10 @@
           convertToGrayScale();           // manipulate canvas
           context.font = '24px serif';
           context.fillText('Dancount ' + dancount + ' fps: ' +
-                  Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
-                  100,100);
+                  Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1) +
+                  '  vw: ' + demoVideo.videoWidth + ' vh: ' + demoVideo.videoHeight +
+                  ' iw: ' + window.innerWidth + ' ih: ' + window.innerHeight,
+                  50,50);
           //for (let x = 0; x<640; x+=50) {
           //  context.beginPath();
           //  context.strokeStyle = "green";
