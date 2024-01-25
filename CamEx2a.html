@@ -4,7 +4,7 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
-  <h2>Run 13</h2>
+  <h1>Run 14</h1>
   <video id="demo" autoplay style='border-style: dotted'></video>
   <p>
   hello
@@ -19,14 +19,18 @@
       const demoVideo = document.getElementById('demo');
       console.log('demoVideo:\n', demoVideo);
       demoVideo.autoplay = true;
-      //demoVideo.srcObject = stream;
+
+      // for iOS Safari   see https://leemartin.dev/hello-webrtc-on-safari-11-e8bcb5335295
+      video.setAttribute('autoplay', '');
+      video.setAttribute('muted', '');
+      video.setAttribute('playsinline', '')
 
       const canvas = document.getElementById('outputCanvas');
       canvas.width = 640;
       canvas.height = 480;
       const context = canvas.getContext('2d');
 
-      const constraints = {video: { frameRate: { ideal: 20, max: 100 } } };
+      const constraints = {video: { frameRate: { ideal: 20, max: 100 }, facingMode: 'user' } };
 
       navigator.mediaDevices.getUserMedia(constraints)
           .then(stream =>
