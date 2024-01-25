@@ -4,8 +4,8 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
-  <h1>Run 15</h1>
-  <video id="demo" autoplay style='border-style: dotted'></video>
+  <h1>Run 16</h1>
+  <!--<video id="demo" autoplay style='border-style: dotted'></video>-->
   <p>
   hello
   <p>
@@ -16,14 +16,16 @@
       var start = Date.now();
       var prevTimeStamp = 0;
 
-      const demoVideo = document.getElementById('demo');
-      console.log('demoVideo:\n', demoVideo);
+      //const demoVideo = document.getElementById('demo');
+      const demoVideo = document.createElement('video');
+      demovideo.setAttribute('id', 'demo');
       demoVideo.autoplay = true;
 
       // for iOS Safari   see https://leemartin.dev/hello-webrtc-on-safari-11-e8bcb5335295
       demoVideo.setAttribute('autoplay', '');
       demoVideo.setAttribute('muted', '');
       demoVideo.setAttribute('playsinline', '')
+      console.log('demoVideo:\n', demoVideo);
 
       const canvas = document.getElementById('outputCanvas');
       canvas.width = 640;
