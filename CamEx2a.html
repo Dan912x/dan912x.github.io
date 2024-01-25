@@ -4,7 +4,7 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
-  <h1>Run 21</h1>
+  <h1>Run 22</h1>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
   <p>
   hello
@@ -30,16 +30,18 @@
       console.log('demoVideo:\n', demoVideo);
 
       const canvas = document.getElementById('outputCanvas');
-      canvas.width = 640;  // 640
-      canvas.height = 840;  // 480
+      canvas.width = 150;  // 640
+      canvas.height = 150;  // 480
       const context = canvas.getContext('2d');
 
-      const constraints = {video: { frameRate: { ideal: 20, max: 100 }, facingMode: 'user' } };
+      const constraints = {video: { frameRate: { ideal: 20, max: 100 }, facingMode: 'environment' } };
 
       navigator.mediaDevices.getUserMedia(constraints)
           .then(stream =>
               {
                 demoVideo.srcObject = stream;
+                canvas.width = demoVideo.videoWidth;
+                canvas.height = demoVideo.videoHeight;
                 requestAnimationFrame(updateCanvas);  // call this before each repaint
               })
           .catch(console.error);
@@ -57,6 +59,7 @@
                   '  vw: ' + demoVideo.videoWidth + ' vh: ' + demoVideo.videoHeight +
                   ' iw: ' + window.innerWidth + ' ih: ' + window.innerHeight,
                   50,50);
+          context.fillText('cw ' + canvas.width + ' ch ' + canvas.height, 50, 120);
           //for (let x = 0; x<640; x+=50) {
           //  context.beginPath();
           //  context.strokeStyle = "green";
