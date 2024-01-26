@@ -67,7 +67,7 @@
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = '40px serif';
-          context.fillText('3 Dancount ' + dancount + ' fps: ' +
+          context.fillText('4 Dancount ' + dancount + ' fps: ' +
                   Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
                   50,50);
           context.fillText('  vw: ' + demoVideo.videoWidth + ' vh: ' + demoVideo.videoHeight,
