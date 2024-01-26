@@ -39,8 +39,8 @@
 
       const constraints = {
         video: {
-          frameRate: { ideal: 20, max: 100 },
-          facingMode: 'environment'
+          frameRate: { ideal: 60, max: 100 },
+          facingMode: 'environment',
           width: { min: 480, ideal: 1280, max: 1920 },
           height: { min: 480, ideal: 720, max: 1080 },
         }
@@ -67,7 +67,7 @@
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = '40px serif';
-          context.fillText('4 Dancount ' + dancount + ' fps: ' +
+          context.fillText('5 Dancount ' + dancount + ' fps: ' +
                   Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
                   50,50);
           context.fillText('  vw: ' + demoVideo.videoWidth + ' vh: ' + demoVideo.videoHeight,
