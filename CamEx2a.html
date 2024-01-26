@@ -37,7 +37,14 @@
       const context = canvas.getContext('2d');
       var canvasUpdateToVideoDimensions = false;
 
-      const constraints = {video: { frameRate: { ideal: 20, max: 100 }, facingMode: 'environment' } };
+      const constraints = {
+        video: {
+          frameRate: { ideal: 20, max: 100 },
+          facingMode: 'environment'
+          width: { min: 480, ideal: 1280, max: 1920 },
+          height: { min: 480, ideal: 720, max: 1080 },
+        }
+      };
 
       navigator.mediaDevices.getUserMedia(constraints)
           .then(stream =>
