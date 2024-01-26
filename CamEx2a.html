@@ -60,19 +60,13 @@
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = '40px serif';
-          context.fillText('2 Dancount ' + dancount + ' fps: ' +
-                  Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1) +
-                  '  vw: ' + demoVideo.videoWidth + ' vh: ' + demoVideo.videoHeight,
+          context.fillText('3 Dancount ' + dancount + ' fps: ' +
+                  Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
                   50,50);
-                  context.fillText('iw: ' + window.innerWidth + ' ih: ' + window.innerHeight, 50, 150);
-                  context.fillText('cw ' + canvas.width + ' ch ' + canvas.height, 50, 250);
-          //for (let x = 0; x<640; x+=50) {
-          //  context.beginPath();
-          //  context.strokeStyle = "green";
-          //  context.moveTo(x, 0);
-          //  context.lineTo(x, 480);
-          //  context.stroke();
-          //}
+          context.fillText('  vw: ' + demoVideo.videoWidth + ' vh: ' + demoVideo.videoHeight,
+                  50,150);
+          context.fillText('iw: ' + window.innerWidth + ' ih: ' + window.innerHeight, 50, 250);
+          context.fillText('cw ' + canvas.width + ' ch ' + canvas.height, 50, 350);
           if (dancount<2500) {
             requestAnimationFrame(updateCanvas);            // do it again!
           }
