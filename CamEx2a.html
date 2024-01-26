@@ -64,9 +64,9 @@
                   Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
                   50,50);
           context.fillText('  vw: ' + demoVideo.videoWidth + ' vh: ' + demoVideo.videoHeight,
-                  50,150);
-          context.fillText('iw: ' + window.innerWidth + ' ih: ' + window.innerHeight, 50, 250);
-          context.fillText('cw ' + canvas.width + ' ch ' + canvas.height, 50, 350);
+                  50,130);
+          context.fillText('iw: ' + window.innerWidth + ' ih: ' + window.innerHeight, 50, 210);
+          context.fillText('cw ' + canvas.width + ' ch ' + canvas.height, 50, 290);
           if (dancount<2500) {
             requestAnimationFrame(updateCanvas);            // do it again!
           }
@@ -79,7 +79,7 @@
           console.log(' sizing', canvas.width, 'x', canvas.height,
                       ' factor:', videoRatio);
           let possibleCanvasHeight = window.innerWidth / videoRatio;
-          if (possibleCanvasHeight <= canvas.height) {
+          if (possibleCanvasHeight <= window.innerHeight) {
             canvas.width = window.innerWidth;
             canvas.height = Math.floor(possibleCanvasHeight);
           }
