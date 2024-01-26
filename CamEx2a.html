@@ -4,11 +4,13 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
+  <!--
   <h1>Run 24</h1>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
   <p>
   hello
   <p>
+  -->
   <canvas id="outputCanvas" style='border-style: double'></canvas>
 
   <script>
@@ -52,19 +54,18 @@
           dancount++;
           if (!canvasUpdateToVideoDimensions && demoVideo.videoWidth && demoVideo.videoHeight) {
             console.log('updating wxh B', demoVideo.videoWidth, demoVideo.videoHeight);
-            canvas.width = demoVideo.videoWidth;
-            canvas.height = demoVideo.videoHeight;
+            setCanvasDimensions();
             canvasUpdateToVideoDimensions = true;
           }
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
-          context.font = '24px serif';
-          context.fillText('Dancount ' + dancount + ' fps: ' +
+          context.font = '30px serif';
+          context.fillText('1 Dancount ' + dancount + ' fps: ' +
                   Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1) +
-                  '  vw: ' + demoVideo.videoWidth + ' vh: ' + demoVideo.videoHeight +
-                  ' iw: ' + window.innerWidth + ' ih: ' + window.innerHeight,
+                  '  vw: ' + demoVideo.videoWidth + ' vh: ' + demoVideo.videoHeight,
                   50,50);
-          context.fillText('cw ' + canvas.width + ' ch ' + canvas.height, 50, 120);
+                  context.fillText('iw: ' + window.innerWidth + ' ih: ' + window.innerHeight, 50, 150);
+                  context.fillText('cw ' + canvas.width + ' ch ' + canvas.height, 50, 250);
           //for (let x = 0; x<640; x+=50) {
           //  context.beginPath();
           //  context.strokeStyle = "green";
@@ -72,10 +73,33 @@
           //  context.lineTo(x, 480);
           //  context.stroke();
           //}
-          if (dancount<1200) {
+          if (dancount<2200) {
             requestAnimationFrame(updateCanvas);            // do it again!
           }
       }; // end toCanvas
+
+      window.onresize = setCanvasDimensions;
+      function setCanvasDimensions() {
+        if (demoVideo.videoWidth && demoVideo.videoHeight) {
+          let videoRatio = demoVideo.videoWidth / demoVideo.videoHeight;
+          console.log(' sizing', canvas.width, 'x', canvas.height,
+                      ' factor:', videoRatio);
+          let possibleCanvasHeight = window.innerWidth / videoRatio;
+          if (possibleCanvasHeight <= canvas.height) {
+            canvas.width = window.innerWidth;
+            canvas.height = Math.floor(possibleCanvasHeight);
+          }
+          else {
+            canvas.width = Math.floor(window.innerHeight * videoRatio);
+            canvas.height = window.innerHeight;
+          }
+          console.log('    ==>', canvas.width, 'x', canvas.height)
+        }
+        else {
+          console.log('  called setCanvasRatio, nop');
+        }
+      }
+
 
       function convertToGrayScale() {
           //console.log(dancount, 'grayScaleCanvas', canvas);
