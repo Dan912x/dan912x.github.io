@@ -83,10 +83,10 @@
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = '40px serif';
-          context.fillText('7 absolute: ' + orAbsolute, 50, 60);
-          context.fillText('x: ', orX, 50, 120);
-          context.fillText('x: ', orY, 50, 180);
-          context.fillText('x: ', orZ, 50, 240);
+          context.fillText('8 absolute: ' + orAbsolute, 50, 60);
+          context.fillText('x: ' + orX, 50, 120);
+          context.fillText('y: ' + orY, 50, 180);
+          context.fillText('z: ' + orZ, 50, 240);
           /*
           context.fillText('5 Dancount ' + dancount + ' fps: ' +
                   Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
