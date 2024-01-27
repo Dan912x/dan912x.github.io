@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
+<body>
+  <!--
+  <h1>Run 24</h1>
+  <p>
+  hello
+  <p>
+  -->
+  <video id="demo" hidden autoplay style='border-style: dotted'></video>
+  <canvas id="outputCanvas" style='border-style: double'></canvas>
+
+  <script>
+      // Based on CamEx2a, with sensor experiments
+      var dancount = 1000;
+      var start = Date.now();
+      var prevTimeStamp = 0;
+
+      const demoVideo = document.getElementById('demo');
+      // macOS Safari doesn't work right with non-attached video
+      //const demoVideo = document.createElement('video');
+      //demoVideo.setAttribute('id', 'demo');
+      demoVideo.autoplay = true;
+
+      // for iOS Safari   see https://leemartin.dev/hello-webrtc-on-safari-11-e8bcb5335295
+      // see also https://webkit.org/blog/6784/new-video-policies-for-ios/
+      demoVideo.setAttribute('autoplay', '');
+      demoVideo.setAttribute('muted', '');
+      demoVideo.setAttribute('playsinline', '')
+      console.log('demoVideo:\n', demoVideo);
+
+      const canvas = document.getElementById('outputCanvas');
+      canvas.width = 200;  // dummy values
+      canvas.height = 200;
+      const context = canvas.getContext('2d');
+      var canvasUpdateToVideoDimensions = false;
+
+      const constraints = {
+        video: {
+          frameRate: { ideal: 60, max: 100 },
+          facingMode: 'environment',
+          width: { min: 480, ideal: 1280, max: 1920 },
+          height: { min: 480, ideal: 720, max: 1080 },
+        }
+      };
+
+      navigator.mediaDevices.getUserMedia(constraints)
+          .then(stream =>
+              {
+                demoVideo.srcObject = stream;
+                requestAnimationFrame(updateCanvas);  // call this before each repaint
+              })
+          .catch(console.error);
+
+
+      var orAbsolute;
+      var orX;
+      var orY;
+      var orZ;
+      ondeviceorientation = shook;
+      function shook(event) {
+        orAbsolute = event.absolute;
+        orX = event.beta;
+        orY = event.gamma;
+        orZ = event.alpha;
+      }
+
+      function updateCanvas(timeStamp){
+          //console.log('callback elapsed',
+          //        Math.round(timeStamp - prevTimeStamp, 1), '===', timeStamp);
+          prevTimeStamp = timeStamp;
+          dancount++;
+          if (!canvasUpdateToVideoDimensions && demoVideo.videoWidth && demoVideo.videoHeight) {
+            console.log('updating wxh B', demoVideo.videoWidth, demoVideo.videoHeight);
+            setCanvasDimensions();
+            canvasUpdateToVideoDimensions = true;
+          }
+          context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
+          convertToGrayScale();           // manipulate canvas
+          context.font = '40px serif';
+          context.fillText('6 absolute: ' + orAbsolute, 50, 60);
+          context.fillText('x: ', orX, 50, 120);
+          context.fillText('x: ', orY, 50, 180);
+          context.fillText('x: ', orZ, 50, 240);
+          /*
+          context.fillText('5 Dancount ' + dancount + ' fps: ' +
+                  Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
+                  50,50);
+          context.fillText('  vw: ' + demoVideo.videoWidth + ' vh: ' + demoVideo.videoHeight,
+                  50,130);
+          context.fillText('iw: ' + window.innerWidth + ' ih: ' + window.innerHeight, 50, 210);
+          context.fillText('cw ' + canvas.width + ' ch ' + canvas.height, 50, 290);
+          */
+          if (dancount<2500) {
+            requestAnimationFrame(updateCanvas);            // do it again!
+          }
+      }; // end toCanvas
+
+      window.onresize = setCanvasDimensions;
+      function setCanvasDimensions() {
+        if (demoVideo.videoWidth && demoVideo.videoHeight) {
+          let videoRatio = demoVideo.videoWidth / demoVideo.videoHeight;
+          console.log(' sizing', canvas.width, 'x', canvas.height,
+                      ' factor:', videoRatio);
+          let possibleCanvasHeight = window.innerWidth / videoRatio;
+          if (possibleCanvasHeight <= window.innerHeight) {
+            canvas.width = window.innerWidth;
+            canvas.height = Math.floor(possibleCanvasHeight);
+          }
+          else {
+            canvas.width = Math.floor(window.innerHeight * videoRatio);
+            canvas.height = window.innerHeight;
+          }
+          console.log('    ==>', canvas.width, 'x', canvas.height)
+        }
+        else {
+          console.log('  called setCanvasRatio, nop');
+        }
+      }
+
+
+      function convertToGrayScale() {
+          //console.log(dancount, 'grayScaleCanvas', canvas);
+          const frame=context.getImageData(0,0, canvas.width, canvas.height);
+          // This loop gets every pixel on the image and puts the rgb average as value
+          for (let i=0; i<canvas.height; i++){
+              for (let j=0; j<canvas.width; j++){
+                  let index=(i*4)*frame.width+(j*4);
+                  let red=frame.data[index];
+                  let green=frame.data[index+1];
+                  let blue=frame.data[index+2];
+                        //if (i == 200 && j == 200)
+                        //  console.log('peek 200x200 <', red, green, blue, '>');
+                  let average=(red+green+blue)/3;
+                  frame.data[index]=average;
+                  frame.data[index+1]=average;
+                  frame.data[index+2]=average;
+              }
+          }
+          context.putImageData(frame, 0, 0);
+      }
+  </script>
+</body>
+</html>
