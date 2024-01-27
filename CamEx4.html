@@ -57,11 +57,13 @@
 
 
       var orAbsolute;
-      var orX;
-      var orY;
-      var orZ;
-      ondeviceorientation = shook;
+      var orX = 101;
+      var orY = 102;
+      var orZ = 103;
+      //ondeviceorientation = shook;
+      window.addEventListener("deviceorientation", shook);
       function shook(event) {
+        console.log('shook', event);
         orAbsolute = event.absolute;
         orX = event.beta;
         orY = event.gamma;
@@ -81,7 +83,7 @@
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = '40px serif';
-          context.fillText('6 absolute: ' + orAbsolute, 50, 60);
+          context.fillText('7 absolute: ' + orAbsolute, 50, 60);
           context.fillText('x: ', orX, 50, 120);
           context.fillText('x: ', orY, 50, 180);
           context.fillText('x: ', orZ, 50, 240);
