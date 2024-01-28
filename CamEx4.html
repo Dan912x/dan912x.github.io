@@ -10,6 +10,7 @@
   hello
   <p>
   -->
+  <button type="button" id="ApproveButton" onclick="askPermission()">Approve</button>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
   <canvas id="outputCanvas" style='border-style: double'></canvas>
 
@@ -44,11 +45,13 @@
       var orZ = 103;
       //ondeviceorientation = shook;
       window.addEventListener("deviceorientation", shook);
-      // Request permission for iOS 13+ devices
-      if ( DeviceMotionEvent &&
-          typeof DeviceMotionEvent.requestPermission === "function") {
-            DeviceMotionEvent.requestPermission();
-        }
+      function askPermission() {
+        // Request permission for iOS 13+ devices
+        if ( DeviceMotionEvent &&
+            typeof DeviceMotionEvent.requestPermission === "function") {
+              DeviceMotionEvent.requestPermission();
+          }
+      }
 
       const constraints = {
         video: {
@@ -89,7 +92,7 @@
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = '40px serif';
-          context.fillText('10 absolute: ' + orAbsolute, 50, 60);
+          context.fillText('11 absolute: ' + orAbsolute, 50, 60);
           context.fillText('x: ' + orX, 50, 120);
           context.fillText('y: ' + orY, 50, 180);
           context.fillText('z: ' + orZ, 50, 240);
