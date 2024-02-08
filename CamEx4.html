@@ -19,6 +19,8 @@
       var dancount = 1000;
       var start = Date.now();
       var prevTimeStamp = 0;
+      setDimensionsCount = 0;
+      setDimensionsInfo = '';
 
       const demoVideo = document.getElementById('demo');
       // macOS Safari doesn't work right with non-attached video
@@ -43,8 +45,12 @@
       var orX = 101;
       var orY = 102;
       var orZ = 103;
+      var orScreenOrientation = '???'
+      var shookCount = 0;
       //ondeviceorientation = shook;
       window.addEventListener("deviceorientation", shook);
+      window.addEventListener("change",
+            {(event) => {orScreenOrientation = event.target.type}})
       function askPermission() {
         // Request permission for iOS 13+ devices
         if ( DeviceMotionEvent &&
@@ -77,6 +83,7 @@
         orX = event.beta;
         orY = event.gamma;
         orZ = event.alpha;
+        shookCount++;
       }
 
       function updateCanvas(timeStamp){
@@ -91,11 +98,16 @@
           }
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
-          context.font = '40px serif';
-          context.fillText('12 absolute: ' + orAbsolute, 50, 60);
-          context.fillText('x: ' + Math.round(orX), 50, 120);
-          context.fillText('y: ' + Math.round(orY), 50, 180);
-          context.fillText('z: ' + Math.round(orZ), 50, 240);
+          context.font = '60px serif bold';
+          context.fillText('13 absolute: ' + orAbsolute, 50, 60);
+          context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
+                          ' z: ' + Math.round(orZ), 50, 120);
+          //context.fillText('x: ' + Math.round(orX), 50, 120);
+          //context.fillText('y: ' + Math.round(orY), 50, 180);
+          //context.fillText('z: ' + Math.round(orZ), 50, 240);
+          context.fillText('o: ' + orScreenOrientation, 50, 180);
+          context.fillText('shookCount: ' + shookCount, 50, 240);
+          context.fillText(setDimensionsInfo, 50, 300);
           /*
           context.fillText('5 Dancount ' + dancount + ' fps: ' +
                   Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
@@ -130,6 +142,10 @@
         else {
           console.log('  called setCanvasRatio, nop');
         }
+        setDimensionsCount++;
+        setDimensionsInfo = 'SET ' + setDimensionsCount + ' video: ' +
+              demoVideo.videoWidth + 'x' + demoVideo.videoHeight + '  canvas:' +
+              canvas.width + 'x' + canvas.height;
       }
 
 
