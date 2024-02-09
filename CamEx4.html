@@ -10,11 +10,19 @@
   hello
   <p>
   -->
+  <h1 id="dan">Info</h1>
   <button type="button" id="ApproveButton" onclick="askPermission()" style="height: 100px, width: 200px">Approve</button>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
   <canvas id="outputCanvas" style='border-style: double'></canvas>
 
   <script>
+      let in1 = 'xxx';
+      if (DeviceMotionEvent)
+        in1 = typeof DeviceMotionEvent.requestPermission;
+      else
+        in1 = 'DeviceMoEv not defined'
+      document.getElementById('dan').innerHTML = in1;
+
       // Based on CamEx2a, with sensor experiments
       var dancount = 1000;
       var start = Date.now();
@@ -102,7 +110,7 @@
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = '60px serif bold';
-          context.fillText('13 absolute: ' + orAbsolute, 50, 60);
+          context.fillText('14 absolute: ' + orAbsolute, 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ), 50, 120);
           //context.fillText('x: ' + Math.round(orX), 50, 120);
