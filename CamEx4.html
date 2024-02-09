@@ -11,7 +11,7 @@
   <p>
   <h1 id="dan">Info</h1>
 -->
-  <h1>100</h1>
+  <h1>101</h1>
   <button type="button" id="ApproveButton"
         onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
   <p>
@@ -52,10 +52,11 @@
       const context = canvas.getContext('2d');
       var canvasUpdateToVideoDimensions = false;
 
-      var orAbsolute;
+      var orAbsolute = 'unset';
       var orX = 101;
       var orY = 102;
       var orZ = 103;
+      var orC = 104;
       var orScreenOrientation = '???'
       var shookCount = 0;
       //ondeviceorientation = shook;
@@ -65,6 +66,7 @@
                             console.log('change event:', orScreenOrientation)});
       window.addEventListener("deviceorientation", shook);
       console.log('   added deviceorientation listener 1 shook()');
+      setCanvasDimensions();  // on load
 
       function askPermission() {
         console.log("In askPermission, DeviceOrientationEvent: ", DeviceOrientationEvent);
@@ -88,8 +90,8 @@
         video: {
           frameRate: { ideal: 60, max: 100 },
           facingMode: 'environment',
-          width: { min: 480, ideal: 1280, max: 1920 },
-          height: { min: 480, ideal: 720, max: 1080 },
+          width: { min: 480, max: 1920 },  // ideal: 1280
+          height: { min: 480, max: 1920 /*1080*/ },  // ideal: 720
         }
       };
 
@@ -104,11 +106,12 @@
 
       function shook(event) {
         if (shookCount < 10)
-          console.log('shook', event);
-        orAbsolute = event.absolute;
+          console.log('shook', event.webkitCompassHeading, event);
+        orAbsolute = event.absolute;  // not in iOS, evidently
         orX = event.beta;
         orY = event.gamma;
         orZ = event.alpha;
+        orC = event.webkitCompassHeading;  // maybe iOS only, not Android
         shookCount++;
       }
 
@@ -124,10 +127,11 @@
           }
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
-          context.font = 'bold 40px serif';
-          context.fillText('100 absolute: ' + orAbsolute, 50, 60);
+          context.font = 'bold 50px serif';
+          context.fillText('101 absolute: ' + orAbsolute, 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
-                          ' z: ' + Math.round(orZ), 50, 120);
+                          ' z: ' + Math.round(orZ) + ' ch:' +
+                              Math.round(orC), 50, 120);
           //context.fillText('x: ' + Math.round(orX), 50, 120);
           //context.fillText('y: ' + Math.round(orY), 50, 180);
           //context.fillText('z: ' + Math.round(orZ), 50, 240);
@@ -149,8 +153,13 @@
       }; // end toCanvas
 
       window.onresize = setCanvasDimensions;
+      // see https://stackoverflow.com/questions/73493417/ios-chrome-yields-incorrect-window-innerwidth-and-innerheight
       function setCanvasDimensions() {
-        console.log("---setCanvasDimensions()---");
+        window.setTimeout(setCanvasDimensionsAfterWait, 5);
+      }
+
+      function setCanvasDimensionsAfterWait() {
+        console.log("---setCanvasDimensionsAfterWait()---");
         if (demoVideo.videoWidth && demoVideo.videoHeight) {
           let videoRatio = demoVideo.videoWidth / demoVideo.videoHeight;
           console.log(' sizing', canvas.width, 'x', canvas.height,
