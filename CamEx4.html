@@ -10,7 +10,7 @@
   hello
   <p>
   -->
-  <button type="button" id="ApproveButton" onclick="askPermission()" style="height: 100px">Approve</button>
+  <button type="button" id="ApproveButton" onclick="askPermission()" style="height: 100px, width: 200px">Approve</button>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
   <canvas id="outputCanvas" style='border-style: double'></canvas>
 
@@ -51,7 +51,10 @@
       window.addEventListener("deviceorientation", shook);
       window.addEventListener("change",
             {(event) => {orScreenOrientation = event.target.type}})
+
       function askPermission() {
+        document.getElementById("ApproveButton").style.color="pink";
+        document.getElementById("ApproveButton").innerHTML = typeof DeviceMotionEvent.requestPermission;
         // Request permission for iOS 13+ devices
         if ( DeviceMotionEvent &&
             typeof DeviceMotionEvent.requestPermission === "function") {
