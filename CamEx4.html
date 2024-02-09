@@ -9,19 +9,19 @@
   <p>
   hello
   <p>
-  -->
   <h1 id="dan">Info</h1>
+-->
   <button type="button" id="ApproveButton" onclick="askPermission()" style="height: 100px, width: 200px">Approve</button>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
   <canvas id="outputCanvas" style='border-style: double'></canvas>
 
   <script>
-      let in1 = 'xxx';
-      if (DeviceMotionEvent)
-        in1 = typeof DeviceMotionEvent.requestPermission;
-      else
-        in1 = 'DeviceMoEv not defined'
-      document.getElementById('dan').innerHTML = in1;
+      //let in1 = 'xxx';
+      //if (DeviceMotionEvent)
+      //  in1 = typeof DeviceMotionEvent.requestPermission;
+      //else
+      //  in1 = 'DeviceMoEv not defined'
+      //document.getElementById('dan').innerHTML = in1;
 
       // Based on CamEx2a, with sensor experiments
       var dancount = 1000;
@@ -56,9 +56,9 @@
       var orScreenOrientation = '???'
       var shookCount = 0;
       //ondeviceorientation = shook;
-      window.addEventListener("deviceorientation", shook);
+      //window.addEventListener("deviceorientation", shook);
       window.addEventListener("change",
-            (event) => {orScreenOrientation = event.target.type})
+                (event) => {orScreenOrientation = event.target.type})
 
       function askPermission() {
         document.getElementById("ApproveButton").style.color="pink";
@@ -67,6 +67,7 @@
         if ( DeviceMotionEvent &&
             typeof DeviceMotionEvent.requestPermission === "function") {
               DeviceMotionEvent.requestPermission();
+              window.addEventListener("deviceorientation", shook);
           }
       }
 
@@ -109,8 +110,8 @@
           }
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
-          context.font = '60px serif bold';
-          context.fillText('15 absolute: ' + orAbsolute, 50, 60);
+          context.font = '40px serif bold';
+          context.fillText('17 absolute: ' + orAbsolute, 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ), 50, 120);
           //context.fillText('x: ' + Math.round(orX), 50, 120);
@@ -128,7 +129,7 @@
           context.fillText('iw: ' + window.innerWidth + ' ih: ' + window.innerHeight, 50, 210);
           context.fillText('cw ' + canvas.width + ' ch ' + canvas.height, 50, 290);
           */
-          if (dancount<2500) {
+          if (dancount<3500) {
             requestAnimationFrame(updateCanvas);            // do it again!
           }
       }; // end toCanvas
