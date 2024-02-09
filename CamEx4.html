@@ -11,7 +11,10 @@
   <p>
   <h1 id="dan">Info</h1>
 -->
-  <button type="button" id="ApproveButton" onclick="askPermission()" style="height: 100px, width: 200px">Approve</button>
+  <h1>100</h1>
+  <button type="button" id="ApproveButton"
+        onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
+  <p>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
   <canvas id="outputCanvas" style='border-style: double'></canvas>
 
@@ -60,6 +63,8 @@
       window.addEventListener("change",
                 (event) => {orScreenOrientation = event.target.type;
                             console.log('change event:', orScreenOrientation)});
+      window.addEventListener("deviceorientation", shook);
+      console.log('   added deviceorientation listener 1 shook()');
 
       function askPermission() {
         console.log("In askPermission, DeviceOrientationEvent: ", DeviceOrientationEvent);
@@ -75,7 +80,7 @@
             typeof DeviceOrientationEvent.requestPermission === "function") {
               DeviceOrientationEvent.requestPermission();
               window.addEventListener("deviceorientation", shook);
-              console.log('   added deviceorientation listener shook()');
+              console.log('   added deviceorientation listener 2 shook()');
           }
       }
 
@@ -98,7 +103,8 @@
 
 
       function shook(event) {
-        //console.log('shook', event);
+        if (shookCount < 10)
+          console.log('shook', event);
         orAbsolute = event.absolute;
         orX = event.beta;
         orY = event.gamma;
@@ -119,7 +125,7 @@
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 40px serif';
-          context.fillText('21 absolute: ' + orAbsolute, 50, 60);
+          context.fillText('100 absolute: ' + orAbsolute, 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ), 50, 120);
           //context.fillText('x: ' + Math.round(orX), 50, 120);
