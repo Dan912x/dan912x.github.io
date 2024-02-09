@@ -58,9 +58,11 @@
       //ondeviceorientation = shook;
       //window.addEventListener("deviceorientation", shook);
       window.addEventListener("change",
-                (event) => {orScreenOrientation = event.target.type})
+                (event) => {orScreenOrientation = event.target.type;
+                            console.log('change event:', orScreenOrientation)});
 
       function askPermission() {
+        console.log("In askPermission, DeviceOrientationEvent: ", DeviceOrientationEvent);
         document.getElementById("ApproveButton").style.color="pink";
         document.getElementById("ApproveButton").innerHTML = typeof DeviceOrientationEvent.requestPermission;
         // Request permission for iOS 13+ devices
@@ -73,6 +75,7 @@
             typeof DeviceOrientationEvent.requestPermission === "function") {
               DeviceOrientationEvent.requestPermission();
               window.addEventListener("deviceorientation", shook);
+              console.log('   added deviceorientation listener shook()');
           }
       }
 
@@ -116,7 +119,7 @@
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = '40px serif bold';
-          context.fillText('19 absolute: ' + orAbsolute, 50, 60);
+          context.fillText('20 absolute: ' + orAbsolute, 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ), 50, 120);
           //context.fillText('x: ' + Math.round(orX), 50, 120);
@@ -141,10 +144,13 @@
 
       window.onresize = setCanvasDimensions;
       function setCanvasDimensions() {
+        console.log("---setCanvasDimensions()---");
         if (demoVideo.videoWidth && demoVideo.videoHeight) {
           let videoRatio = demoVideo.videoWidth / demoVideo.videoHeight;
           console.log(' sizing', canvas.width, 'x', canvas.height,
-                      ' factor:', videoRatio);
+                      ' video width/height:', videoRatio,
+                      ' window width x height:', window.innerWidth, 'x',
+                            window.innerHeight);
           let possibleCanvasHeight = window.innerWidth / videoRatio;
           if (possibleCanvasHeight <= window.innerHeight) {
             canvas.width = window.innerWidth;
