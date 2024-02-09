@@ -98,7 +98,7 @@
 
 
       function shook(event) {
-        console.log('shook', event);
+        //console.log('shook', event);
         orAbsolute = event.absolute;
         orX = event.beta;
         orY = event.gamma;
@@ -118,8 +118,8 @@
           }
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
-          context.font = '40px serif bold';
-          context.fillText('20 absolute: ' + orAbsolute, 50, 60);
+          context.font = 'bold 40px serif';
+          context.fillText('21 absolute: ' + orAbsolute, 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ), 50, 120);
           //context.fillText('x: ' + Math.round(orX), 50, 120);
