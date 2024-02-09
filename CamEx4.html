@@ -11,7 +11,7 @@
   <p>
   <h1 id="dan">Info</h1>
 -->
-  <h1>101</h1>
+  <h1>102</h1>
   <button type="button" id="ApproveButton"
         onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
   <p>
@@ -61,15 +61,15 @@
       var shookCount = 0;
       //ondeviceorientation = shook;
       //window.addEventListener("deviceorientation", shook);
-      window.addEventListener("change",
-                (event) => {orScreenOrientation = event.target.type;
-                            console.log('change event:', orScreenOrientation)});
+      window.addEventListener("orientationchange",
+                (event) => {orScreenOrientation = screen.orientation.angle;
+                            console.log('**orientation change event:', orScreenOrientation)});
       window.addEventListener("deviceorientation", shook);
       console.log('   added deviceorientation listener 1 shook()');
       setCanvasDimensions();  // on load
 
       function askPermission() {
-        console.log("In askPermission, DeviceOrientationEvent: ", DeviceOrientationEvent);
+        console.log("In askPermission, DeviceOrientationEvent:");
         document.getElementById("ApproveButton").style.color="pink";
         document.getElementById("ApproveButton").innerHTML = typeof DeviceOrientationEvent.requestPermission;
         // Request permission for iOS 13+ devices
@@ -128,7 +128,7 @@
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 50px serif';
-          context.fillText('101 absolute: ' + orAbsolute, 50, 60);
+          context.fillText('102', 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 120);
@@ -155,7 +155,8 @@
       window.onresize = setCanvasDimensions;
       // see https://stackoverflow.com/questions/73493417/ios-chrome-yields-incorrect-window-innerwidth-and-innerheight
       function setCanvasDimensions() {
-        window.setTimeout(setCanvasDimensionsAfterWait, 5);
+        console.log('>>>', window.innerWidth, window.innerHeight);
+        window.setTimeout(setCanvasDimensionsAfterWait, 25);
       }
 
       function setCanvasDimensionsAfterWait() {
