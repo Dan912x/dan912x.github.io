@@ -58,7 +58,7 @@
       //ondeviceorientation = shook;
       window.addEventListener("deviceorientation", shook);
       window.addEventListener("change",
-            {(event) => {orScreenOrientation = event.target.type}})
+            (event) => {orScreenOrientation = event.target.type})
 
       function askPermission() {
         document.getElementById("ApproveButton").style.color="pink";
@@ -110,7 +110,7 @@
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = '60px serif bold';
-          context.fillText('14 absolute: ' + orAbsolute, 50, 60);
+          context.fillText('15 absolute: ' + orAbsolute, 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ), 50, 120);
           //context.fillText('x: ' + Math.round(orX), 50, 120);
