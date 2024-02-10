@@ -11,7 +11,7 @@
   <p>
   <h1 id="dan">Info</h1>
 -->
-  <h1>102</h1>
+  <h1>103</h1>
   <button type="button" id="ApproveButton"
         onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
   <p>
@@ -47,7 +47,7 @@
       console.log('demoVideo:\n', demoVideo);
 
       const canvas = document.getElementById('outputCanvas');
-      canvas.width = 200;  // dummy values
+      canvas.width = 200;  // dummy/initial values
       canvas.height = 200;
       const context = canvas.getContext('2d');
       var canvasUpdateToVideoDimensions = false;
@@ -125,10 +125,11 @@
             setCanvasDimensions();
             canvasUpdateToVideoDimensions = true;
           }
+          console.log('......... canvas width', canvas.width, ' height', canvas.height);
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 50px serif';
-          context.fillText('102', 50, 60);
+          context.fillText('103', 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 120);
@@ -137,7 +138,7 @@
           //context.fillText('z: ' + Math.round(orZ), 50, 240);
           context.fillText('o: ' + orScreenOrientation, 50, 180);
           context.fillText('shookCount: ' + shookCount, 50, 240);
-          context.fillText(setDimensionsInfo, 50, 300);
+          //.fillText(setDimensionsInfo, 50, 300);
           /*
           context.fillText('5 Dancount ' + dancount + ' fps: ' +
                   Math.round((dancount-1000) / ((Date.now() - start) / 1000), 1),
@@ -181,10 +182,10 @@
         else {
           console.log('  called setCanvasRatio, nop');
         }
-        setDimensionsCount++;
-        setDimensionsInfo = 'SET ' + setDimensionsCount + ' video: ' +
-              demoVideo.videoWidth + 'x' + demoVideo.videoHeight + '  canvas:' +
-              canvas.width + 'x' + canvas.height;
+        //setDimensionsCount++;
+        //setDimensionsInfo = 'SET ' + setDimensionsCount + ' video: ' +
+        //      demoVideo.videoWidth + 'x' + demoVideo.videoHeight + '  canvas:' +
+        //      canvas.width + 'x' + canvas.height;
       }
 
 
