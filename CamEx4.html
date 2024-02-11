@@ -5,7 +5,7 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
-  <span style='font-size:40px'>108</span>
+  <span style='font-size:40px'>109</span>
   <button type="button" id="ApproveButton"
         onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
   <p>
@@ -94,7 +94,7 @@
 
       const constraints = {
         video: {
-          frameRate: { ideal: 60, max: 100 },
+          frameRate: { ideal: 30, max: 100 },
           facingMode: 'environment',
           width: { min: 480, max: 1920 },  // ideal: 1280
           height: { min: 480, max: 1920 /*1080*/ },  // ideal: 720
@@ -131,11 +131,14 @@
             setCanvasDimensions();
             canvasUpdateToVideoDimensions = true;
           }
+          console.log('.... orientation:', orScreenOrientation);
           console.log('......... canvas width', canvas.width, ' height', canvas.height);
+          console.log('.........  video width', demoVideo.videoWidth,
+                        'height', demoVideo.videoHeight)
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 50px serif';
-          context.fillText('108', 50, 60);
+          context.fillText('109', 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 120);
@@ -154,7 +157,7 @@
           context.fillText('iw: ' + window.innerWidth + ' ih: ' + window.innerHeight, 50, 210);
           context.fillText('cw ' + canvas.width + ' ch ' + canvas.height, 50, 290);
           */
-          if (dancount<3500) {
+          if (dancount<2000) {
             requestAnimationFrame(updateCanvas);            // do it again!
           }
       }; // end toCanvas
@@ -166,7 +169,7 @@
         return;  // make this function a nop for now
         //window.setTimeout(setCanvasDimensionsAfterWait, 25);
       }
-
+      /*
       function setCanvasDimensionsAfterWait() {
         console.log("---setCanvasDimensionsAfterWait()---");
         if (demoVideo.videoWidth && demoVideo.videoHeight) {
@@ -194,7 +197,7 @@
         //      demoVideo.videoWidth + 'x' + demoVideo.videoHeight + '  canvas:' +
         //      canvas.width + 'x' + canvas.height;
       }
-
+      */
 
       function convertToGrayScale() {
           //console.log(dancount, 'grayScaleCanvas', canvas);
