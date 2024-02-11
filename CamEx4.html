@@ -5,7 +5,7 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body style = "background-color: yellow;">
-  <span style='font-size:20px'>111</span>
+  <span style='font-size:20px'>112</span>
   <button type="button" id="ApproveButton"
         onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
   <p>
@@ -41,8 +41,8 @@
       demoVideo.setAttribute('playsinline', '')
       console.log('demoVideo:\n', demoVideo);
 
-      var D1 = 960;  // long dimension
-      var D2 = 720;  // short dimension, 4:3 ratio
+      var D1 = 400;  // long dimension
+      var D2 = 300;  // short dimension, 4:3 ratio
       var canvas = document.getElementById('outputCanvas');
       canvas.width = D2;
       canvas.height = D1;
@@ -144,7 +144,7 @@
                             0, 0, canvas.width, canvas.height);  // no scaling
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 50px serif';
-          context.fillText('111', 50, 60);
+          context.fillText('112', 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 120);
