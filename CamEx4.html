@@ -5,7 +5,7 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body style = "background-color: yellow;">
-  <span style='font-size:20px'>110</span>
+  <span style='font-size:20px'>111</span>
   <button type="button" id="ApproveButton"
         onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
   <p>
@@ -131,16 +131,20 @@
             setCanvasDimensions();
             canvasUpdateToVideoDimensions = true;
           }
-          console.log('.... orientation:', orScreenOrientation);
-          console.log('......... canvas width', canvas.width, ' height', canvas.height);
-          console.log('.........  video width', demoVideo.videoWidth,
-                        'height', demoVideo.videoHeight)
+          if (orScreenOrientation != '???') {
+            console.log('.... orientation:', orScreenOrientation);
+            console.log('......... window width', window.innerWidth, ' height',
+                                  window.innerHeight);
+            console.log('......... canvas width', canvas.width, ' height', canvas.height);
+            console.log('.........  video width', demoVideo.videoWidth,
+                          'height', demoVideo.videoHeight)
+          }
           //context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height,
                             0, 0, canvas.width, canvas.height);  // no scaling
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 50px serif';
-          context.fillText('110', 50, 60);
+          context.fillText('111', 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 120);
