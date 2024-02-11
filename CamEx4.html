@@ -4,12 +4,13 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
-  <h1>104</h1>
+  <span style='font-size:40px'>105</span>
   <button type="button" id="ApproveButton"
         onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
   <p>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
-  <canvas id="outputCanvas" style='border-style: double'></canvas>
+  <canvas id="outputCanvas"
+        style='border-style: double, position: absolute, top: 80px, left: 10px'></canvas>
 
   <script>
       //let in1 = 'xxx';
@@ -39,8 +40,8 @@
       demoVideo.setAttribute('playsinline', '')
       console.log('demoVideo:\n', demoVideo);
 
-      var D1 = 800;  // long dimension
-      var D2 = 450;  // short dimension, same 16:9 ration as camera
+      var D1 = 1280;  // long dimension
+      var D2 = 720;  // short dimension, same 16:9 ration as camera
       var canvas = document.getElementById('outputCanvas');
       canvas.width = D2;
       canvas.height = D1;
@@ -57,8 +58,16 @@
       //ondeviceorientation = shook;
       //window.addEventListener("deviceorientation", shook);
       window.addEventListener("orientationchange",
-                (event) => {orScreenOrientation = screen.orientation.angle;
-                            console.log('**orientation change event:', orScreenOrientation)});
+          (event) => {orScreenOrientation = screen.orientation.angle;
+                      if (orScreenOrientation == 0 || orScreenOrientation == 180) {
+                        canvas.width = D2;
+                        canvas.height = D1;
+                      }
+                      else {
+                        canvas.width = D1;
+                        canvas.height = D2;
+                      }
+                      console.log('**orientation change event:', orScreenOrientation)});
 
       window.addEventListener("deviceorientation", shook);
       console.log('   added deviceorientation listener 1 shook()');
@@ -125,7 +134,7 @@
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 50px serif';
-          context.fillText('104', 50, 60);
+          context.fillText('105', 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 120);
