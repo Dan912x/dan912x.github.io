@@ -5,7 +5,7 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body style = "background-color: yellow;">
-  <span style='font-size:20px'>112</span>
+  <span style='font-size:20px'>113</span>
   <button type="button" id="ApproveButton"
         onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
   <p>
@@ -54,7 +54,7 @@
       var orY = 102;
       var orZ = 103;
       var orC = 104;
-      var orScreenOrientation = '???'
+      var orScreenOrientation = screen.orientation.angle;
       var shookCount = 0;
       //ondeviceorientation = shook;
       //window.addEventListener("deviceorientation", shook);
@@ -144,7 +144,7 @@
                             0, 0, canvas.width, canvas.height);  // no scaling
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 50px serif';
-          context.fillText('112', 50, 60);
+          context.fillText('113', 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 120);
