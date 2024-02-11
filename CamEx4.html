@@ -4,14 +4,7 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body>
-  <!--
-  <h1>Run 24</h1>
-  <p>
-  hello
-  <p>
-  <h1 id="dan">Info</h1>
--->
-  <h1>103</h1>
+  <h1>104</h1>
   <button type="button" id="ApproveButton"
         onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
   <p>
@@ -30,8 +23,8 @@
       var dancount = 1000;
       var start = Date.now();
       var prevTimeStamp = 0;
-      setDimensionsCount = 0;
-      setDimensionsInfo = '';
+      var setDimensionsCount = 0;
+      var setDimensionsInfo = '';
 
       const demoVideo = document.getElementById('demo');
       // macOS Safari doesn't work right with non-attached video
@@ -46,9 +39,11 @@
       demoVideo.setAttribute('playsinline', '')
       console.log('demoVideo:\n', demoVideo);
 
-      const canvas = document.getElementById('outputCanvas');
-      canvas.width = 200;  // dummy/initial values
-      canvas.height = 200;
+      var D1 = 800;  // long dimension
+      var D2 = 450;  // short dimension, same 16:9 ration as camera
+      var canvas = document.getElementById('outputCanvas');
+      canvas.width = D2;
+      canvas.height = D1;
       const context = canvas.getContext('2d');
       var canvasUpdateToVideoDimensions = false;
 
@@ -64,6 +59,7 @@
       window.addEventListener("orientationchange",
                 (event) => {orScreenOrientation = screen.orientation.angle;
                             console.log('**orientation change event:', orScreenOrientation)});
+
       window.addEventListener("deviceorientation", shook);
       console.log('   added deviceorientation listener 1 shook()');
       setCanvasDimensions();  // on load
@@ -129,14 +125,14 @@
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 50px serif';
-          context.fillText('103', 50, 60);
+          context.fillText('104', 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 120);
           //context.fillText('x: ' + Math.round(orX), 50, 120);
           //context.fillText('y: ' + Math.round(orY), 50, 180);
           //context.fillText('z: ' + Math.round(orZ), 50, 240);
-          context.fillText('o: ' + orScreenOrientation, 50, 180);
+          context.fillText('or: ' + orScreenOrientation, 50, 180);
           context.fillText('shookCount: ' + shookCount, 50, 240);
           //.fillText(setDimensionsInfo, 50, 300);
           /*
@@ -157,7 +153,8 @@
       // see https://stackoverflow.com/questions/73493417/ios-chrome-yields-incorrect-window-innerwidth-and-innerheight
       function setCanvasDimensions() {
         console.log('>>>', window.innerWidth, window.innerHeight);
-        window.setTimeout(setCanvasDimensionsAfterWait, 25);
+        return;  // make this function a nop for now
+        //window.setTimeout(setCanvasDimensionsAfterWait, 25);
       }
 
       function setCanvasDimensionsAfterWait() {
@@ -191,7 +188,7 @@
 
       function convertToGrayScale() {
           //console.log(dancount, 'grayScaleCanvas', canvas);
-          const frame=context.getImageData(0,0, canvas.width, canvas.height);
+          const frame=context.getImageData(0, 0, canvas.width, canvas.height);
           // This loop gets every pixel on the image and puts the rgb average as value
           for (let i=0; i<canvas.height; i++){
               for (let j=0; j<canvas.width; j++){
