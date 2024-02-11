@@ -4,14 +4,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
-<body>
-  <span style='font-size:40px'>109</span>
+<body style = "background-color: yellow;">
+  <span style='font-size:20px'>110</span>
   <button type="button" id="ApproveButton"
         onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
   <p>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
   <canvas id="outputCanvas"
-        style='border-style: double, position: absolute, top: 100px, left: 10px'></canvas>
+        style='border-style: double, position: absolute, top: 50px, left: 50px'></canvas>
 
   <script>
       //let in1 = 'xxx';
@@ -41,8 +41,8 @@
       demoVideo.setAttribute('playsinline', '')
       console.log('demoVideo:\n', demoVideo);
 
-      var D1 = 1280;  // long dimension
-      var D2 = 720;  // short dimension, same 16:9 ratio as camera
+      var D1 = 960;  // long dimension
+      var D2 = 720;  // short dimension, 4:3 ratio
       var canvas = document.getElementById('outputCanvas');
       canvas.width = D2;
       canvas.height = D1;
@@ -135,10 +135,12 @@
           console.log('......... canvas width', canvas.width, ' height', canvas.height);
           console.log('.........  video width', demoVideo.videoWidth,
                         'height', demoVideo.videoHeight)
-          context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
+          //context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
+          context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height
+                            0, 0, canvas.width, canvas.height);  // no scaling
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 50px serif';
-          context.fillText('109', 50, 60);
+          context.fillText('110', 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 120);
