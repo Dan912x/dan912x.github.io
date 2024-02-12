@@ -10,7 +10,7 @@
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
 <body style = "background-color: yellow;">
-  <span style='font-size:20px'>113</span>
+  <span style='font-size:20px'>114</span>
   <button type="button" id="ApproveButton"
         onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
   <p>
@@ -39,7 +39,7 @@
       console.log('demoVideo:\n', demoVideo);
 
       var D1 = 400;  // long dimension
-      var D2 = 300;  // short dimension, 4:3 ratio
+      var D2 = D1 * 3/4;  // short dimension, 4:3 ratio
       var canvas = document.getElementById('outputCanvas');
       canvas.width = D2;
       canvas.height = D1;
@@ -142,16 +142,19 @@
                             0, 0, canvas.width, canvas.height);  // no scaling
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 50px serif';
-          context.fillText('113', 50, 60);
+          context.fillText('114', 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 120);
           context.fillText('or: ' + orScreenOrientation, 50, 180);
           context.fillText('shookCount: ' + shookCount, 50, 240);
-          if (dancount<2000) {
-            requestAnimationFrame(updateCanvas);            // do it again!
+          if (document.visibilityState != 'visible') {
+            console.log('***** GOODBYE *****');
+            return;
           }
-      }; // end toCanvas
+          //if (dancount<2000) {
+          requestAnimationFrame(updateCanvas);            // do it again!
+      }; // end updateCanvas
 
       window.onresize = setCanvasDimensions;
       // see https://stackoverflow.com/questions/73493417/ios-chrome-yields-incorrect-window-innerwidth-and-innerheight
@@ -217,6 +220,13 @@
   if('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js', { scope: '/' });
   }
+  window.addEventListener("visibilitychange", function () {
+    console.log("Visibility changed", document.visibilityState);
+    if (document.visibilityState === "visible") {
+      console.log("App Ghost resumed");
+      window.location.reload();  // reload from server, hopefully
+    }
+  });
   </script>
 </body>
 </html>

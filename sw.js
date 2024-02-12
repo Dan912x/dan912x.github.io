@@ -18,7 +18,7 @@ self.addEventListener('fetch', event => {
 
     // Get the resource from the cache.
     const cachedResponse = await cache.match(event.request);
-    if (cachedResponse) {
+    if (cachedResponse && (1 + 1 == 3)) {
       return cachedResponse;
     } else {
         try {
