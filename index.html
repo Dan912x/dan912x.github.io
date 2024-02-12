@@ -9,14 +9,15 @@
   <title>Ghosts</title>
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
-<body style = "background-color: green;">
-  <span style='font-size:20px'>116</span>
-  <button type="button" id="ApproveButton"
-        onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
+<body style = "background-color: tan;">
+  <span style='font-size:20px'>117</span>
   <p>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
   <canvas id="outputCanvas"
         style='border-style: double, position: absolute, top: 50px, left: 50px'></canvas>
+  <p>
+  <button type="button" id="ApproveButton"
+              onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
 
   <script>
       var dancount = 1000;
@@ -24,6 +25,10 @@
       var prevTimeStamp = 0;
       var setDimensionsCount = 0;
       var setDimensionsInfo = '';
+      var prevorScreenOrientation = -1;
+      var prevWidth = -1;
+      var prevHeight = -1;
+
 
       const demoVideo = document.getElementById('demo');
       // macOS Safari doesn't work right with non-attached video
@@ -127,22 +132,27 @@
             setCanvasDimensions();
             canvasUpdateToVideoDimensions = true;
           }
-          if (orScreenOrientation != '???') {
+          if (orScreenOrientation != prevorScreenOrientation ||
+              window.innerWidth != prevWidth ||
+              window.innerHeight != prevHeight) {
             console.log('.... orientation:', orScreenOrientation, '         ',
                           dancount);
-            console.log('.... shook:', shookCount);
+            //console.log('.... shook:', shookCount);
             console.log('......... window width', window.innerWidth, ' height',
                                   window.innerHeight);
             console.log('......... canvas width', canvas.width, ' height', canvas.height);
             console.log('.........  video width', demoVideo.videoWidth,
                           'height', demoVideo.videoHeight)
+            prevorScreenOrientation = orScreenOrientation;
+            prevWidth = window.innerWidth;
+            prevHeight = window.innerHeight;
           }
           //context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
           context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height,
                             0, 0, canvas.width, canvas.height);  // no scaling
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 50px serif';
-          context.fillText('116', 50, 60);
+          context.fillText('117', 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 120);
