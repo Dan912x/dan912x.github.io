@@ -13,8 +13,10 @@
   <!--<span style='font-size:20px'>117</span>-->
   <p>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
-  <canvas id="outputCanvas"
-        style='border-style: double, position: absolute, top: 0px, left: 0px'></canvas>
+
+  <div id= "canvasWrapper" style="position:absolute, top: 0, left: 0,
+                                background-color: HoneyDew"><canvas id="outputCanvas"
+        style='border-style: double'></canvas></div>
   <p>
   <!--<button type="button" id="ApproveButton"
               onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>-->
@@ -29,7 +31,7 @@
       var prevWidth = -1;
       var prevHeight = -1;
 
-
+      const canvasWrapper = document.getElementBuId('canvasWrapper');
       const demoVideo = document.getElementById('demo');
       // macOS Safari doesn't work right with non-attached video
       //const demoVideo = document.createElement('video');
@@ -182,17 +184,19 @@
         let minDim = Math.min(window.innerWidth, window.innerHeight);
         if (screen.orientation.angle == 0) {    // portrait
           canvas.width = window.innerWidth;
-          canvas.height = Math.min(Math.floor(canvas.height * 4 / 3),
+          canvas.height = Math.min(Math.floor(canvas.width * 4 / 3),
                                    window.innerHeight);
-          canvas.style.left = '0';
-          canvas.style.top = Math.floor((window.innerHeight - canvas.height) / 2) + 'px';
+         //canvas.style.left = '0';
+         //canvas.style.top = Math.floor((window.innerHeight - canvas.height) / 2) + 'px';
+         canvasWrapper.style.left = '0';
+         canvasWrapper.style.top = Math.floor((window.innerHeight - canvas.height) / 2) + 'px';
         }
         else {      // landscape
           canvas.height = window.innerHeight;
           canvas.width = Math.min(Math.floor(canvas.width * 4 / 3),
                                    window.innerWidth);
-          canvas.style.left = Math.floor((window.innerWidth - canvas.width) / 2) + 'px';
-          canvas.style.top = '0';
+          canvasWrapper.style.left = Math.floor((window.innerWidth - canvas.width) / 2) + 'px';
+          canvasWrapper.style.top = '0';
         }
         console.log('   resizing canvas', canvas.width, 'x', canvas.height,
                     ' based on window:', window.innerWidth, 'x',
