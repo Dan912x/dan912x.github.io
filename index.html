@@ -31,7 +31,7 @@
       var prevWidth = -1;
       var prevHeight = -1;
 
-      const canvasWrapper = document.getElementBuId('canvasWrapper');
+      const canvasWrapper = document.getElementById('canvasWrapper');
       const demoVideo = document.getElementById('demo');
       // macOS Safari doesn't work right with non-attached video
       //const demoVideo = document.createElement('video');
@@ -157,7 +157,7 @@
                             0, 0, canvas.width, canvas.height);  // no scaling
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 50px serif';
-          context.fillText('118', 50, 60);
+          context.fillText('119', 50, 60);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 120);
