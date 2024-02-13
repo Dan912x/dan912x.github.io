@@ -9,15 +9,15 @@
   <title>Ghosts</title>
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
-<body style = "background-color: tan;">
-  <span style='font-size:20px'>117</span>
+<body style = "background-color: Coral;">
+  <!--<span style='font-size:20px'>117</span>-->
   <p>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
   <canvas id="outputCanvas"
-        style='border-style: double, position: absolute, top: 50px, left: 50px'></canvas>
+        style='border-style: double, position: absolute, top: 0px, left: 0px'></canvas>
   <p>
-  <button type="button" id="ApproveButton"
-              onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>
+  <!--<button type="button" id="ApproveButton"
+              onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>-->
 
   <script>
       var dancount = 1000;
@@ -59,6 +59,8 @@
       var orScreenOrientation = screen.orientation.angle;
       var shookCount = 0;
 
+      // I don't think this is working
+      /*
       window.addEventListener("orientationchange",
           (event) => {orScreenOrientation = screen.orientation.angle;
                       if (orScreenOrientation == 0 || orScreenOrientation == 180) {
@@ -70,6 +72,7 @@
                         canvas.height = D2;
                       }
                       console.log('**orientation change event:', orScreenOrientation)});
+      */
 
       window.addEventListener("deviceorientation", shook);
       console.log('   added deviceorientation listener 1 shook()');
@@ -169,39 +172,36 @@
       window.onresize = setCanvasDimensions;
       // see https://stackoverflow.com/questions/73493417/ios-chrome-yields-incorrect-window-innerwidth-and-innerheight
       function setCanvasDimensions() {
-        console.log('>>>', window.innerWidth, window.innerHeight);
-        return;  // make this function a nop for now
-        //window.setTimeout(setCanvasDimensionsAfterWait, 25);
+        console.log('>>> setCanvasDimensions:', window.innerWidth, window.innerHeight);
+        //return;  // make this function a nop for now
+        window.setTimeout(setCanvasDimensionsAfterWait, 5);
       }
-      /*
+
       function setCanvasDimensionsAfterWait() {
         console.log("---setCanvasDimensionsAfterWait()---");
-        if (demoVideo.videoWidth && demoVideo.videoHeight) {
-          let videoRatio = demoVideo.videoWidth / demoVideo.videoHeight;
-          console.log(' sizing', canvas.width, 'x', canvas.height,
-                      ' video width/height:', videoRatio,
-                      ' window width x height:', window.innerWidth, 'x',
-                            window.innerHeight);
-          let possibleCanvasHeight = window.innerWidth / videoRatio;
-          if (possibleCanvasHeight <= window.innerHeight) {
-            canvas.width = window.innerWidth;
-            canvas.height = Math.floor(possibleCanvasHeight);
-          }
-          else {
-            canvas.width = Math.floor(window.innerHeight * videoRatio);
-            canvas.height = window.innerHeight;
-          }
-          console.log('    ==>', canvas.width, 'x', canvas.height)
+        let minDim = Math.min(window.innerWidth, window.innerHeight);
+        if (screen.orientation.angle == 0) {    // portrait
+          canvas.width = window.innerWidth;
+          canvas.height = Math.min(Math.floor(canvas.height * 4 / 3),
+                                   window.innerHeight);
+          canvas.style.left = '0';
+          canvas.style.top = Math.floor((window.innerHeight - canvas.height) / 2) + 'px';
         }
-        else {
-          console.log('  called setCanvasRatio, nop');
+        else {      // landscape
+          canvas.height = window.innerHeight;
+          canvas.width = Math.min(Math.floor(canvas.width * 4 / 3),
+                                   window.innerWidth);
+          canvas.style.left = Math.floor((window.innerWidth - canvas.width) / 2) + 'px';
+          canvas.style.top = '0';
         }
-        //setDimensionsCount++;
-        //setDimensionsInfo = 'SET ' + setDimensionsCount + ' video: ' +
-        //      demoVideo.videoWidth + 'x' + demoVideo.videoHeight + '  canvas:' +
-        //      canvas.width + 'x' + canvas.height;
+        console.log('   resizing canvas', canvas.width, 'x', canvas.height,
+                    ' based on window:', window.innerWidth, 'x',
+                          window.innerHeight);
+        let camShrink = Math.min(canvas.width / demoVideo.videoWidth,
+                                 canvas.height / demoVideo.videoHeight);
+        console.log('   camShrink', camShrink);
       }
-      */
+
 
       function convertToGrayScale() {
           //console.log(dancount, 'grayScaleCanvas', canvas);
