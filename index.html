@@ -9,14 +9,14 @@
   <title>Ghosts</title>
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
-<body style = "background-color: pink;">
+<body style = "background-color: LightSteelBlue;">
   <!--<span style='font-size:20px'>117</span>-->
   <p>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
 
   <div id= "canvasWrapper" style="position:absolute, top: 0, left: 0,
                                 background-color: HoneyDew"><canvas id="outputCanvas"
-        style='border-style: double'></canvas></div>
+        style='border-style: double, position: absolute'></canvas></div>
   <p>
   <!--<button type="button" id="ApproveButton"
               onclick="askPermission()" style="height: 300px, width: 400px">Approve</button>-->
@@ -30,6 +30,11 @@
       var prevorScreenOrientation = -1;
       var prevWidth = -1;
       var prevHeight = -1;
+      var cameraRectWidth = 100;  // init, dummy values
+      var cameraRectHeight = 100;
+      var cameraRectTop = 0;
+      var cameraRectLeft = 0;
+
 
       const canvasWrapper = document.getElementById('canvasWrapper');
       const demoVideo = document.getElementById('demo');
@@ -153,16 +158,17 @@
             prevHeight = window.innerHeight;
           }
           //context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height);  // video -> canvas, with scaling
-          context.drawImage(demoVideo, 0, 0, canvas.width, canvas.height,
-                            0, 0, canvas.width, canvas.height);  // no scaling
+          context.drawImage(demoVideo, cameraRectLeft, cameraRectTop,
+                            cameraRectWidth, cameraRectHeight,
+                            0, 0, canvas.width, canvas.height);
           convertToGrayScale();           // manipulate canvas
-          context.font = 'bold 50px serif';
-          context.fillText('119', 50, 60);
+          context.font = 'bold 40px serif';
+          context.fillText('120', 50, 50);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
-                              Math.round(orC), 50, 120);
-          context.fillText('or: ' + orScreenOrientation, 50, 180);
-          context.fillText('shookCount: ' + shookCount, 50, 240);
+                              Math.round(orC), 50, 100);
+          context.fillText('or: ' + orScreenOrientation, 50, 150);
+          context.fillText('shookCount: ' + shookCount, 50, 200);
           if (document.visibilityState != 'visible') {
             console.log('***** GOODBYE *****');
             return;
@@ -198,6 +204,23 @@
           canvasWrapper.style.left = Math.floor((window.innerWidth - canvas.width) / 2) + 'px';
           canvasWrapper.style.top = '0';
         }
+        canvasWrapper.style.width = canvas.width + 'px';
+        canvasWrapper.style.height = canvas.height + 'px';
+
+        if (canvas.height >= canvas.width) {
+          cameraRectWidth = demoVideo.videoWidth;
+          cameraRectHeight = Math.round(cameraRectWidth * 4/3);
+          if (cameraRectHeight > demoVideo.videoHeight) {
+            cameraRectHeight = demoVideo.videoHeight;
+            cameraRectWidth = Math.round(cameraRectHeight * 3/4);
+          }
+          cameraRectLeft = Math.floor((demoVideo.videoWidth - cameraRectWidth)/2);
+          cameraRectTop  = Math.floor((demoVideo.videoHeight - cameraRectHeight)/2);
+        }
+        else {
+          console.log(">>> Not handling camera rect set-up for landscape");
+        }
+
         console.log('   resizing canvas', canvas.width, 'x', canvas.height,
                     ' based on window:', window.innerWidth, 'x',
                           window.innerHeight);
