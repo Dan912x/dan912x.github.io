@@ -9,7 +9,7 @@
   <title>Ghosts</title>
 </head>
 <!-- from https://stackoverflow.com/questions/58499997/is-it-possible-to-manipulate-camera-data-before-sending-in-webrtc -->
-<body style = "background-color: LightSteelBlue;">
+<body style = "background-color: MediumOrchid;">
   <!--<span style='font-size:20px'>117</span>-->
   <p>
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
@@ -163,7 +163,7 @@
                             0, 0, canvas.width, canvas.height);
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 40px serif';
-          context.fillText('120', 50, 50);
+          context.fillText('121', 50, 50);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 100);
@@ -190,12 +190,17 @@
         let minDim = Math.min(window.innerWidth, window.innerHeight);
         if (screen.orientation.angle == 0) {    // portrait
           canvas.width = window.innerWidth;
-          canvas.height = Math.min(Math.floor(canvas.width * 4 / 3),
-                                   window.innerHeight);
-         //canvas.style.left = '0';
-         //canvas.style.top = Math.floor((window.innerHeight - canvas.height) / 2) + 'px';
-         canvasWrapper.style.left = '0';
-         canvasWrapper.style.top = Math.floor((window.innerHeight - canvas.height) / 2) + 'px';
+          //canvas.height = Math.min(Math.floor(canvas.width * 4 / 3),
+          //                         window.innerHeight);
+          canvas.height = Math.round(canvas.width * 4 / 3);
+          if (canvas.height > window.innerHeight) {
+            canvas.height = window.innerHeight;
+            canvas.width = Math.round(canvas.height * 3/4);
+          }
+          //canvas.style.left = '0';
+          //canvas.style.top = Math.floor((window.innerHeight - canvas.height) / 2) + 'px';
+          canvasWrapper.style.left = '0';
+          canvasWrapper.style.top = Math.floor((window.innerHeight - canvas.height) / 2) + 'px';
         }
         else {      // landscape
           canvas.height = window.innerHeight;
@@ -224,9 +229,6 @@
         console.log('   resizing canvas', canvas.width, 'x', canvas.height,
                     ' based on window:', window.innerWidth, 'x',
                           window.innerHeight);
-        let camShrink = Math.min(canvas.width / demoVideo.videoWidth,
-                                 canvas.height / demoVideo.videoHeight);
-        console.log('   camShrink', camShrink);
       }
 
 
