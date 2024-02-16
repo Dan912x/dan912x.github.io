@@ -163,7 +163,7 @@
                             0, 0, canvas.width, canvas.height);
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 40px serif';
-          context.fillText('122', 50, 50);
+          context.fillText('123', 50, 50);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 100);
@@ -188,7 +188,7 @@
       function setCanvasDimensionsAfterWait() {
         console.log("---setCanvasDimensionsAfterWait()---");
         console.log("....window w, h:", window.innerWidth, windo.innerHeight,
-                    "   camera w, h:"  demoVideo.videoWidth, demoVideo.videoHeight);
+                    "   camera w, h:",  demoVideo.videoWidth, demoVideo.videoHeight);
         //let minDim = Math.min(window.innerWidth, window.innerHeight);
         if (screen.orientation.angle == 0) {    // portrait
           canvas.width = window.innerWidth;
