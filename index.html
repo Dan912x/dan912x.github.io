@@ -15,7 +15,7 @@
   <video id="demo" hidden autoplay style='border-style: dotted'></video>
 
   <div id= "canvasWrapper" style="position:absolute, top: 0, left: 0,
-                                background-color: HoneyDew"><canvas id="outputCanvas"
+                                background-color: OldLace"><canvas id="outputCanvas"
         style='border-style: double, position: absolute'></canvas></div>
   <p>
   <!--<button type="button" id="ApproveButton"
@@ -107,8 +107,8 @@
         video: {
           frameRate: { ideal: 30, max: 100 },
           facingMode: 'environment',
-          width: { min: 480, max: 1920 },  // ideal: 1280
-          height: { min: 480, max: 1920 /*1080*/ },  // ideal: 720
+          width: {ideal: 1280},  //{ min: 480, max: 1920 },  // ideal: 1280
+          height: {ideal: 720}, //{ min: 480, max: 1920 /*1080*/ },  // ideal: 720
         }
       };
 
@@ -163,7 +163,7 @@
                             0, 0, canvas.width, canvas.height);
           convertToGrayScale();           // manipulate canvas
           context.font = 'bold 40px serif';
-          context.fillText('121', 50, 50);
+          context.fillText('122', 50, 50);
           context.fillText('x: ' + Math.round(orX) + ' y: ' + Math.round(orY) +
                           ' z: ' + Math.round(orZ) + ' ch:' +
                               Math.round(orC), 50, 100);
@@ -180,14 +180,16 @@
       window.onresize = setCanvasDimensions;
       // see https://stackoverflow.com/questions/73493417/ios-chrome-yields-incorrect-window-innerwidth-and-innerheight
       function setCanvasDimensions() {
-        console.log('>>> setCanvasDimensions:', window.innerWidth, window.innerHeight);
+        //console.log('>>> setCanvasDimensions:', window.innerWidth, window.innerHeight);
         //return;  // make this function a nop for now
         window.setTimeout(setCanvasDimensionsAfterWait, 5);
       }
 
       function setCanvasDimensionsAfterWait() {
         console.log("---setCanvasDimensionsAfterWait()---");
-        let minDim = Math.min(window.innerWidth, window.innerHeight);
+        console.log("....window w, h:", window.innerWidth, windo.innerHeight,
+                    "   camera w, h:"  demoVideo.videoWidth, demoVideo.videoHeight);
+        //let minDim = Math.min(window.innerWidth, window.innerHeight);
         if (screen.orientation.angle == 0) {    // portrait
           canvas.width = window.innerWidth;
           //canvas.height = Math.min(Math.floor(canvas.width * 4 / 3),
@@ -204,15 +206,18 @@
         }
         else {      // landscape
           canvas.height = window.innerHeight;
-          canvas.width = Math.min(Math.floor(canvas.width * 4 / 3),
-                                   window.innerWidth);
+          canvas.width = Math.round(canvas.width * 4 / 3);
+          if (canvas.width > window.innerWidth) {
+            canvas.width = window.innerWidth;
+            canvas.height = Math.round(canvas.width * 3/4);
+          }
           canvasWrapper.style.left = Math.floor((window.innerWidth - canvas.width) / 2) + 'px';
           canvasWrapper.style.top = '0';
         }
         canvasWrapper.style.width = canvas.width + 'px';
         canvasWrapper.style.height = canvas.height + 'px';
 
-        if (canvas.height >= canvas.width) {
+        if (canvas.height >= canvas.width) {   //portrait
           cameraRectWidth = demoVideo.videoWidth;
           cameraRectHeight = Math.round(cameraRectWidth * 4/3);
           if (cameraRectHeight > demoVideo.videoHeight) {
@@ -222,8 +227,10 @@
           cameraRectLeft = Math.floor((demoVideo.videoWidth - cameraRectWidth)/2);
           cameraRectTop  = Math.floor((demoVideo.videoHeight - cameraRectHeight)/2);
         }
-        else {
+        else {   // landscape
           console.log(">>> Not handling camera rect set-up for landscape");
+          cameraRectLeft = Math.floor((demoVideo.videoWidth - cameraRectWidth)/2);
+          cameraRectTop  = Math.floor((demoVideo.videoHeight - cameraRectHeight)/2);
         }
 
         console.log('   resizing canvas', canvas.width, 'x', canvas.height,
