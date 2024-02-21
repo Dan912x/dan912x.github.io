@@ -243,7 +243,7 @@
         }
 
         console.log('   resizing canvas', canvas.width, 'x', canvas.height,
-                    '()', Math.round(canvas.width / canvas.height, 3), ')',
+                    '(', (canvas.width / canvas.height).toPrecision(3), ')',
                     ' based on window:', window.innerWidth, 'x',
                           window.innerHeight);
       }
